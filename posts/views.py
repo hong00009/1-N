@@ -46,7 +46,14 @@ def comments_create(request, post_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False) #commit 저장단위 / 아직DB에 저장하지 말고 False로 기다려라
-            comment.post_id = post_id # 인자로 받아온 post_id를 comment와 연결
+
+            # 인자로 받아온 post_id를 comment와 연결
+            # 1번방법
+            comment.post_id = post_id 
+            # 2번방법
+            # post = Post.objects.get(id=post_id)
+            # comment.post = post
+
             comment.save()
 
             return redirect('posts:detail', post_id)
