@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{post.title}}</h1>
+<p>{{post.content}}</p>
+
+<h3>comment</h3>
+
+{% comment %}
+{% for comment in comments %}
+    <p>{{comment.content}}</p>
+{% endfor %}
+
+{% endcomment %}
+
+{% for comment in post.comment_set.all %}
+    <p>{{comment.content}}</p>
+    <a href="{% url 'posts:comments_delete' post.id comment.id %}">delete</a>
+{% endfor %}
+
+<form action="{% url 'posts:comments_create' post.id %}" method="POST">
+    {% csrf_token %}
+
+    {{comment_form}}
+    <input type="submit">
+</form>
+
+
+{% endblock %}
